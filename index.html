@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: "Libre Baskerville", serif;
+            font-weight: 400;
+            font-style: normal;
+            text-align: center;
+            color: #6b705c;
+            background-color: #b7b7a4;
+            min-height: 100vh;
+            /* Ensure body takes at least the height of the viewport */
+        }
+
+        h1 {
+            background-color: #6b705c;
+            color: #ffe8d6;
+            margin-top: 0;
+            padding: 25px 0px 30px 0px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .wrapper {
+            margin: 70px 0px 30px 0px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cont {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .cont p {
+            font-weight: 700;
+        }
+
+        button {
+            font-family: "Libre Baskerville", serif;
+            font-weight: 700;
+            font-size: 16px;
+            background-color: #6b705c;
+            color: #ddbea9;
+            padding: 10px 30px;
+            border-radius: 3px;
+            border: none;
+            box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        }
+
+        .formCont {
+            padding-bottom: 70px;
+            font-weight: 700;
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: #ffe8d6;
+        }
+
+        .formCont form {
+            padding: 0px 130px;
+        }
+
+        .formCont label,
+        input {
+            margin: auto;
+            display: block;
+        }
+
+        .formCont input {
+            width: 100%;
+        }
+
+        .formCont label {
+            padding: 20px;
+        }
+
+        .formCont button {
+            margin-top: 30px;
+            padding: 10px 30px;
+        }
+
+        .formCont h2 {
+            border-radius: 5px 5px 0px 0px;
+            width: 100%;
+            background-color: #6b705c;
+            color: #f0f0d9;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            margin-top: 0;
+            margin-bottom: 50px;
+            position: relative;
+            top: 0;
+        }
+
+        footer {
+            font-size: 15px;
+            text-align: center;
+            background-color: #ddbea9;
+            color: #90907b;
+            width: 100%;
+            margin-top: auto;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .modalBG {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(0, 0, 0, 0.7);
+            position: absolute;
+            top: 0;
+        }
+
+        .modalBG h2 {
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="declaration">Welcome to Roll The Dice</h1>
+    <div class="wrapper">
+        <div class="cont">
+            <p id="name1">Player 1</p>
+            <img id="img1" src="images/dice6.png" alt="">
+        </div>
+        <div class="cont">
+            <p id="name2">Player 2</p>
+            <img id="img2" src="images/dice6.png" alt="">
+        </div>
+    </div>
+    <button id="rollBtn">Roll</button>
+    <footer>
+        <p>Made By Nagato</p>
+    </footer>
+
+    <div id="inpModal" class="modalBG">
+        <div class="formCont">
+            <h2>Roll The Dice</h2>
+            <form>
+                <label for="p1">Enter Player 1's Name</label>
+                <input id="p1" type="text">
+
+                <label for="p2">Enter Player 2's Name</label>
+                <input id="p2" type="text">
+
+                <button id="inpSubmit" type="button">Play</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var player1;
+        var player2;
+        var inpButton = $("#inpSubmit");
+        var button = $("#rollBtn");
+
+        button.click(roll);
+        inpButton.click(input);
+
+        function input() {
+            var inpPopup = $("#inpModal");
+            var p1Inp = $("#p1");
+            var p2Inp = $("#p2");
+            var name1 = $("#name1");
+            var name2 = $("#name2");
+            player1 = p1Inp.val();
+            player2 = p2Inp.val();
+            name1.text(player1);
+            name2.text(player2);
+            inpPopup.hide();
+
+        }
+
+        function roll() {
+            var dice1 = Math.floor(Math.random() * 6);
+            var dice2 = Math.floor(Math.random() * 6);
+            var diceImg1 = $("#img1");
+            var diceImg2 = $("#img2");
+            var winner = $("#declaration");
+            changeButton();
+            changeImg(diceImg1, dice1);
+            changeImg(diceImg2, dice2);
+            changeText(dice1, dice2, winner)
+        }
+
+        function changeButton() {
+            button.text("Roll Again");
+        }
+        function changeImg(element, randValue) {
+            var imagePaths = [
+                "images/dice1.png",
+                "images/dice2.png",
+                "images/dice3.png",
+                "images/dice4.png",
+                "images/dice5.png",
+                "images/dice6.png"
+            ];
+
+            element.attr("src", imagePaths[randValue]);
+        }
+        function changeText(dice1, dice2, element) {
+            if (dice1 > dice2) {
+                element.text(player1 + " Won!");
+            }
+            else if (dice1 < dice2) {
+                element.text(player2 + " Won!");
+            }
+            else {
+                element.html("Oh No! It's a Tie<br>Roll again");
+            }
+        }
+    </script>
+</body>
+
+</html>
